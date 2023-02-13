@@ -8,29 +8,24 @@ async function useRequests(url: string): Promise<cheerio.Selector> {
     console.error(error);
   }
   const html = response.data;
+  console.log("Scrapped", url);
   return cheerio.load(html);
 }
 
 export class UseScraper {
-  element: string | cheerio.Selector
-  constructor(param: string | cheerio.Selector) {
-    this.element = param;
+  soup: string | Promise<cheerio.Selector>;
+  constructor(param: string | Promise<cheerio.Selector>) {
+    this.soup = param;
   }
-  async getSouped():Promise<cheerio.Selector> {
-    if (typeof this.element === "string") {
-      return await useRequests(this.element);
-    } else if (this.element instanceof cheerio) {
-      return this.element;
+  async getSouped(): Promise<cheerio.Selector> {
+    if (typeof this.soup === "string") {
+      this.soup = useRequests(this.soup);
     }
+    return this.soup;
   }
 
-  async getTextById(id: string): Promise<string> {
+  async getTextByJquery(jquery: string): Promise<string> {
     const $ = await this.getSouped();
-    return $(`\#${id}`).text();
-  }
-
-  async getTextByTagNClass(tag:string, className: string, index:number=0): Promise<string> {
-    const $ = await this.getSouped();
-    return $(`${tag}.${className}`).text();
+    return $(`${jquery}`).text().trim();
   }
 }
