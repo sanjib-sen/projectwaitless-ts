@@ -1,11 +1,13 @@
-import { UseScraper } from "./lib/scrape";
+import { getClubData } from "./lib/club";
 
 async function main() {
-  const scraper = new UseScraper("https://en.wikipedia.org/wiki/Prague");
-  console.log(
-    await scraper.getTextByJquery(".vector-user-menu-anon-editor > p")
+  const club = await getClubData(
+    "123",
+    "bd",
+    "https://ra.co/clubs/22343",
+    "dhaka"
   );
-  console.log(await scraper.getTextByJquery("#firstHeading"));
+  console.log(club);
 }
 
 main();
