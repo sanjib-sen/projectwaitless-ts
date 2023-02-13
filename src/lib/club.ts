@@ -41,6 +41,7 @@ export async function getClubData(
   club.city_name = await scraper.getTextByJquery(
     ".Text-sc-1t0gn2o-0.Link__StyledLink-k7o46r-0.dxNiKF.Breadcrumb__StyledLink-fnbmus-0.heeKjO"
   );
+  club.capacity = +(await scraper.getTextByJquery(".Text-sc-1t0gn2o-0.fILZhg"));
 
   return club;
 }

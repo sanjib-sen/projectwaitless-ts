@@ -2,6 +2,7 @@ import cheerio from "cheerio";
 var cloudscraper = require("cloudscraper");
 
 async function useRequests(url: string): Promise<cheerio.Root> {
+  console.log("Getting data from", url);
   let response: Promise<string>;
   try {
     response = cloudscraper.get(url);
