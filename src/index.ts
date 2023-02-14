@@ -13,10 +13,8 @@ async function main() {
       owner_url: club[3],
       location: club[2],
     };
-    console.log(clubData);
     const clubJson = await getClubData(clubData);
     console.log("🚀 ~ file: index.ts:18 ~ main ~ clubJson", clubJson);
-    return;
   }
 }
 

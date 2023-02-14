@@ -78,7 +78,7 @@ export async function getClubData(club: Club): Promise<Club> {
     ),
     external_link: club.club_website,
   };
-  const locationData = await getLocationData(club.location);
+  const locationData = await getLocationData(club.google_map);
   club.venue_latitude = locationData?.latitude;
   club.venue_longitude = locationData?.longitude;
   return club;
