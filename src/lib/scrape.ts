@@ -24,8 +24,14 @@ export class UseScraper {
     return this.soup;
   }
 
-  async getTextByJquery(jquery: string): Promise<string> {
+  async getByJquery(
+    jquery: string,
+    attribute: string | null = null
+  ): Promise<string> {
     const $ = await this.getSouped();
+    if (attribute) {
+      return $(`${jquery}`).attr(attribute);
+    }
     return $(`${jquery}`).text().trim();
   }
 }
