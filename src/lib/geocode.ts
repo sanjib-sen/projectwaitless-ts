@@ -2,6 +2,39 @@ import puppeteer from "puppeteer-extra";
 import StealthPlugin from "puppeteer-extra-plugin-stealth";
 import { executablePath } from "puppeteer";
 let nodeGeocoder = require("node-geocoder");
+import axios from "axios";
+import * as dotenv from "dotenv";
+
+export async function getLocationData(
+  address: string
+): Promise<{ latitude: number; longitude: number }> {
+  // return await useGMapNPuppeteer(address); # Medium reliable, free
+  // Or
+  // return await useNodeGeoCoder(address); # Not reliable, free
+  // Or
+  return await usePositionStack(address); // Most reliable, uses_api
+}
+
+async function usePositionStack(
+  address: string
+): Promise<{ latitude: number; longitude: number } | null> {
+  dotenv.config();
+  const positionstack_api_key = process.env.positionstack_api_key;
+  const response = await axios.get("http://api.positionstack.com/v1/forward", {
+    params: {
+      access_key: positionstack_api_key,
+      query: address,
+    },
+  });
+  const data = await response.data.data;
+  if (data) {
+    return {
+      latitude: data[0].latitude,
+      longitude: data[0].longitude,
+    };
+  }
+  return null;
+}
 
 async function useNodeGeoCoder(
   address: string
@@ -18,14 +51,6 @@ async function useNodeGeoCoder(
     };
   }
   return null;
-}
-
-export async function getLocationData(
-  address: string
-): Promise<{ latitude: number; longitude: number }> {
-  return await useGMapNPuppeteer(address);
-  // return await useNodeGeoCoder(address);
-  // return await useNodeGeoCoder(address);
 }
 
 async function useGMapNPuppeteer(

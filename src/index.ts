@@ -1,5 +1,6 @@
 import { Club, getClubData } from "./lib/club";
 import { csvToArray } from "./lib/csv";
+import { getLocationData } from "./lib/geocode";
 
 async function main() {
   const clubsArray = await csvToArray(

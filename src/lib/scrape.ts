@@ -9,7 +9,11 @@ import * as dotenv from "dotenv";
 async function useRequests(url: string): Promise<cheerio.Root> {
   console.log("Getting data from", url);
   try {
-    return useAxiosWithProxy(url);
+    return useAxiosWithProxy(url); // Most reliable, but so slow, uses API
+    // Or
+    // return usePuppeteer(url); // Sometimes can't bypass cloudflare
+    // Or
+    // return useCloudScraper(url); // Superfast, but sometimes can't bypass cloudflare
   } catch (error) {
     throw new Error(error);
   }
