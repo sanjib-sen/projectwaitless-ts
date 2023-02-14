@@ -25,19 +25,7 @@ export interface Club {
   venue_longitude?: number | undefined;
 }
 
-export async function getClubData(
-  clubId: string,
-  venueName: string,
-  ownerUrl: string,
-  clubLocation: string
-): Promise<Club> {
-  let club: Club = {
-    id: clubId,
-    venue_name: venueName,
-    owner_url: ownerUrl,
-    location: clubLocation,
-  };
-
+export async function getClubData(club: Club): Promise<Club> {
   const scraper = new UseScraper(club.owner_url);
   club.owner = "https://ra.co/";
   club.city_name = await scraper.getByJquery(
