@@ -6,14 +6,22 @@ import { executablePath } from "puppeteer";
 import axios from "axios";
 import * as dotenv from "dotenv";
 
-async function useRequests(url: string): Promise<cheerio.Root> {
+type ScrapeMethod = "proxy" | "puppeteer" | "cloudscraper";
+
+async function useRequests(
+  url: string,
+  scrapeMethod: ScrapeMethod = "cloudscraper"
+): Promise<cheerio.Root> {
   console.log("Getting data from", url);
   try {
-    return useAxiosWithProxy(url); // Most reliable, but so slow, uses API
-    // Or
-    // return usePuppeteer(url); // Sometimes can't bypass cloudflare
-    // Or
-    // return useCloudScraper(url); // Superfast, but sometimes can't bypass cloudflare
+    //
+    if (scrapeMethod === "cloudscraper") {
+      return useCloudScraper(url);
+    } else if (scrapeMethod === "proxy") {
+      return useAxiosWithProxy(url);
+    } else if (scrapeMethod === "puppeteer") {
+      return usePuppeteer(url);
+    }
   } catch (error) {
     throw new Error(error);
   }
@@ -59,8 +67,18 @@ async function usePuppeteer(url: string, headless: boolean = true) {
 
 export class UseScraper {
   soup: string | cheerio.Root;
-  constructor(param: string | cheerio.Root) {
-    this.soup = param;
+  scrapeMethod: ScrapeMethod;
+
+  /**
+   * url: url <string>
+   * scrapeMethod: "proxy" | "puppeteer" | "cloudscraper (Default)";
+   *    proxy: Most reliable, but so slow, uses API
+   *    puppeteer: Sometimes can't bypass cloudflare
+   *    cloudscraper: Superfast. But sometimes can't bypass cloudflare
+   */
+  constructor(url: string, scrapeMethod: ScrapeMethod = "cloudscraper") {
+    this.soup = url;
+    this.scrapeMethod = scrapeMethod;
   }
   async getSouped(): Promise<cheerio.Root> {
     if (typeof this.soup === "string") {

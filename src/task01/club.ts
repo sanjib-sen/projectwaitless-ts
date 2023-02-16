@@ -1,5 +1,5 @@
-import { getLocationData } from "./geocode";
-import { UseScraper } from "./scrape";
+import { getLocationData } from "../lib/geocode";
+import { UseScraper } from "../lib/scrape";
 
 export interface Club {
   readonly id: string;

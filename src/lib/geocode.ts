@@ -1,18 +1,30 @@
 import puppeteer from "puppeteer-extra";
 import StealthPlugin from "puppeteer-extra-plugin-stealth";
-import { executablePath } from "puppeteer";
+import { executablePath, Puppeteer } from "puppeteer";
 let nodeGeocoder = require("node-geocoder");
 import axios from "axios";
 import * as dotenv from "dotenv";
 
+type GetLocationDataMethod = "puppeteergmap" | "nodegeocoder" | "positionstack";
+
+/**
+ * address: <string>
+ * method: "puppeteergmap" | "nodegeocoder" | "positionstack (Default)";
+ *    puppeteergmap: Medium reliable, free
+ *    nodegeocoder: Not reliable, free
+ *    positionstack: Most reliable, uses_api, but cheap
+ */
 export async function getLocationData(
-  address: string
+  address: string,
+  method: GetLocationDataMethod = "positionstack"
 ): Promise<{ latitude: number; longitude: number }> {
-  // return await useGMapNPuppeteer(address); # Medium reliable, free
-  // Or
-  // return await useNodeGeoCoder(address); # Not reliable, free
-  // Or
-  return await usePositionStack(address); // Most reliable, uses_api
+  if (method === "positionstack") {
+    return await usePositionStack(address);
+  } else if (method === "nodegeocoder") {
+    return await useNodeGeoCoder(address);
+  } else if (method === "puppeteergmap") {
+    return await useGMapNPuppeteer(address);
+  }
 }
 
 async function usePositionStack(
