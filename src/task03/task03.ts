@@ -1,4 +1,5 @@
 import { UseScraper } from "../lib/scrape";
+import { sleep } from "../lib/utils";
 
 type Venue = {
   venue_name: string;
@@ -51,8 +52,10 @@ export async function task03() {
       };
       Venues.push(venue);
       console.log(venue);
+      await sleep(3000);
     }
     event_hrefs = [];
     pageNo += 1;
+    await sleep(5000);
   }
 }
