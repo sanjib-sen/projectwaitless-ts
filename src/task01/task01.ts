@@ -1,5 +1,6 @@
-import { Club, getClubData } from "./club";
+import { getClubData } from "./club";
 import { csvToArray } from "../lib/csv";
+import { Club } from "../types/types";
 
 export async function task01() {
   const clubsArray = await csvToArray(

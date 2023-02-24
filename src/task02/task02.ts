@@ -1,12 +1,6 @@
 import { csvToArray } from "../lib/csv";
 import { UseScraper } from "../lib/scrape";
-
-type ClubShort = {
-  id: number;
-  venue_opening_status: boolean;
-  owner_url: string;
-  venue_activity: boolean;
-};
+import { ClubShort } from "../types/types";
 
 export async function task02() {
   const noSource: ClubShort[] = [];

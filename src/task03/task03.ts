@@ -1,12 +1,7 @@
+import { getLocationData } from "../lib/geocode";
 import { UseScraper } from "../lib/scrape";
 import { sleep } from "../lib/utils";
-
-type Venue = {
-  venue_name: string;
-  venue_address: string;
-  google_map_url: string;
-  owner_url: string;
-};
+import { Venue } from "../types/types";
 
 const Venues: Venue[] = [];
 const venue_names: string[] = [];
@@ -17,7 +12,7 @@ export async function task03() {
   while (pageNo < 201) {
     const scraper_root = new UseScraper(
       `https://www.fatsoma.com/discover?page=${pageNo}`,
-      "puppeteer"
+      "cloudscraper"
     );
     const $ = await scraper_root.getSouped();
     $("div._content_xz4oby").each((_, elem) => {
@@ -33,10 +28,19 @@ export async function task03() {
         venue_names.push(venue_name);
       }
     });
+    console.log(venue_names);
     for (let index = 0; index < event_hrefs.length; index++) {
       const eventHref = event_hrefs[index];
       const eventScraper = new UseScraper(eventHref, "puppeteer");
       const venue_name = await eventScraper.getByJquery("div._name_cbelrm");
+      const $ = await eventScraper.getSouped();
+      let venue_type: string;
+      $("a.ember-view._tag_6uhsxy").each((_, elem) => {
+        const texContent = $(elem).text().trim();
+        if (texContent.includes("in")) {
+          venue_type = texContent.split("s in")[0]; // e.g. "/Club/s in London"
+        }
+      });
       const venue_address = await eventScraper.getByJquery(
         "div._address_cbelrm"
       );
@@ -44,14 +48,18 @@ export async function task03() {
         "a._link_cbelrm",
         "href"
       );
+      const venue_location = await google_map_url.split("daddr=")[1]; // e.g. daddr=51.2666129,0.5399824'
       const venue: Venue = {
         venue_name: venue_name,
         venue_address: venue_address,
         google_map_url: google_map_url,
         owner_url: eventHref,
+        venue_latitude: +venue_location.split(",")[0],
+        venue_longitude: +venue_location.split(",")[1],
+        venue_type: venue_type,
       };
-      Venues.push(venue);
       console.log(venue);
+      Venues.push(venue);
       await sleep(3000);
     }
     event_hrefs = [];

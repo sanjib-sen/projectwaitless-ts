@@ -1,29 +1,6 @@
 import { getLocationData } from "../lib/geocode";
 import { UseScraper } from "../lib/scrape";
-
-export interface Club {
-  readonly id: string;
-  readonly venue_name: string;
-  readonly owner_url: string;
-  readonly location: string;
-  city_name?: string;
-  phone_number?: string;
-  club_website?: string;
-  google_map?: string;
-  ra_followers?: number;
-  capacity?: number;
-  owner?: string;
-  most_listed_artists?: {
-    name: string;
-    url: string;
-  }[];
-  ra_venue_description?: {
-    text: string;
-    external_link: string;
-  };
-  venue_latitude?: number | undefined;
-  venue_longitude?: number | undefined;
-}
+import { Club } from "../types/types";
 
 export async function getClubData(club: Club): Promise<Club> {
   const scraper = new UseScraper(club.owner_url);

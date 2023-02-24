@@ -1,0 +1,4 @@
+venue_name,venue_address,google_map_url,owner_url,venue_latitude,venue_longitude,venue_type
+"Mote Park","Mote Ave,Maidstone ME15 7RN,UK","https://maps.google.com/maps?daddr=51.2666129,0.5399824","https://www.fatsoma.com/e/j2g7445r/classic-ibiza-in-maidstone",51.2666129,0.5399824,"Festival"
+"Not Duplicate","Fake Location,UK","https://maps.google.com/maps?daddr=51.2666139,0.5399854","https://www.fatsoma.com/e/j2g7445r/this-is-fake",51.2666139,0.5399854,"Club"
+"Duplicate","Duplicate Fake,UK","https://maps.google.com/maps?daddr=51.2666139,0.5399854","https://www.fatsoma.com/e/j2g7445r/this-is-fake",52.473079,-1.900093,"Club"

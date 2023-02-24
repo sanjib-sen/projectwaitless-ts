@@ -15,13 +15,13 @@ async function useRequests(
   try {
     //
     if (scrapeMethod === "cloudscraper") {
-      return useCloudScraper(url);
+      return await useCloudScraper(url);
     } else if (scrapeMethod === "proxy") {
-      return useAxiosWithProxy(url);
+      return await useAxiosWithProxy(url);
     } else if (scrapeMethod === "puppeteer") {
-      return usePuppeteer(url);
+      return await usePuppeteer(url);
     } else if (scrapeMethod === "axios") {
-      return useAxios(url);
+      return await useAxios(url);
     }
   } catch (error) {
     throw new Error(error);
