@@ -2,9 +2,9 @@ import { csvToArray } from "../lib/csv";
 import { Venue } from "../types/types";
 
 export async function task04() {
-  const fastsoma = await csvToArray("resources\\fatsoma_db_rows.csv");
-  const ra = await csvToArray("resources\\residentadvisor_root_db_rows.csv");
-  const skiddle = await csvToArray("resources\\skiddle_venue_db_rows.csv");
+  const fastsoma = await csvToArray("resources/fatsoma_db_rows.csv");
+  const ra = await csvToArray("resources/residentadvisor_root_db_rows.csv");
+  const skiddle = await csvToArray("resources/skiddle_venue_db_rows.csv");
   const listed_venues: string[] = [];
   const venues: Venue[] = [];
   for (let index = 0; index < fastsoma.length; index++) {

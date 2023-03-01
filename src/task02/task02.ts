@@ -31,8 +31,8 @@ export async function task02() {
       console.log(clubData.id, opening_status, activity_status);
 
       if (
-        !(opening_status === clubData.venue_opening_status) ||
-        !(activity_status === clubData.venue_activity)
+        opening_status != clubData.venue_opening_status ||
+        activity_status != clubData.venue_activity
       ) {
         const foundData: ClubShort = clubData;
         foundData.venue_opening_status = opening_status;
@@ -47,6 +47,5 @@ export async function task02() {
     } else {
       noSource.push(clubData);
     }
-    console.log("🚀 ~ file: index.ts:18 ~ main ~ clubJson", notCorrect);
   }
 }
